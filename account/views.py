@@ -21,7 +21,7 @@ from django.utils.timezone import timedelta, datetime
 import shortuuid
 from django.contrib.auth.decorators import login_required
 
-SMS = ghasedakpack.Ghasedak("5b9b365a8ffd98979838487786ca8355d9ab851c3a08cb8c7e2e638e497fa369")
+SMS = ghasedakpack.Ghasedak("API")
 
 
 class SignInView(View):
