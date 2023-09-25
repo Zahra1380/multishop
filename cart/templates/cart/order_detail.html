@@ -19,40 +19,40 @@
                         <th>Color</th>
                         <th>Size</th>
                         <th>Total</th>
-                        <th>Remove</th>
                     </tr>
                     </thead>
                     <tbody class="align-middle">
-                    {% for item in cart %}
+                    {% for item in order.item.all %}
                         <tr>
-                            <td class="align-middle"><img src="{{ item.product.image.url }}" alt=""
-                                                          style="width: 50px;">
+                            <td class="align-middle w-25">
+                                {% for imgs in item.product.image_product.values_list.last %}
+                                    {% if forloop.last %}
+                                        <img class="img-fluid w-100" src="/media/{{ imgs }}" alt="">
+                                    {% endif %}
+                                {% endfor %}
                             </td>
-                            <td class="align-middle">
-                                {{ item.product.title }}
+                            <td class="align-middle"><a
+                                    href="{% url 'Product:product-detail' item.product.slug %}">{{ item.product.title }}</a>
                             </td>
-
-                            <td class="align-middle">{{ item.price }}</td>
+                            <td class="align-middle">{{ item.price }}$</td>
                             <td class="align-middle">
                                 <span>{{ item.quantity }}</span>
                             </td>
                             <td class="align-middle">{{ item.color }}</td>
                             <td class="align-middle">{{ item.size }}</td>
-                            <td class="align-middle">{{ item.total }}</td>
-                            <td class="align-middle">
-                                <a href="{% url 'Cart:delete' item.unique_id %}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
-                            </td>
+                            <td class="align-middle">{{ item.total }}$</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
             <div class="col-lg-4">
-                <form class="mb-30" action="">
+                <form class="mb-30" method="post" s action="{% url 'Cart:apply-discount' order.id %}">
+                    {% csrf_token %}
                     <div class="input-group">
-                        <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+                        <input type="text" class="form-control border-0 p-4" placeholder="Discount" name="Discount">
                         <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
+                            <button class="btn btn-primary">Discount</button>
                         </div>
                     </div>
                 </form>
@@ -62,22 +62,35 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>$150</h6>
+                            <h6>{{ order.tot_price }}$</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">{{ order.transport.coast }}$</h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>${{ cart.total_price }}</h5>
+                            <h5>${{ order.tot_price|add:order.transport.coast }}</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout
-                        </button>
+                        {% if request.user.addresess.all %}
+                            <form action="{% url 'Cart:send-request' order.id %}">
+                                <select class="form-control" required name="address">
+                                    <option selected>Choose one address</option>
+                                    {% for address in request.user.addresess.all %}
+                                        <option value="{{ address.id }}">{{ address.address }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">pay</button>
+                            </form>
+                        {% endif %}
+                        <a href="{% url 'account:add_address' %}?next={% url 'Cart:order-detail' order.id %}"
+                           class="btn btn-block btn-primary font-weight-bold my-3 py-3">add address</a>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>

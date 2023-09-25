@@ -9,34 +9,50 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+LOGIN_URL = '/accounts/sign-in/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-adz!o3^&stzmj3ag7357*sby#hs+@w7#9+-oauapaish72yxjx'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_persian',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'HOME.apps.HomeConfig',
+    'account.apps.AccountConfig',
+    'product.apps.ProductConfig',
+    'cart.apps.CartConfig',
+    'like.apps.LikeConfig',
+    'dislike.apps.DislikeConfig',
+    'save.apps.SaveConfig',
+    'search.apps.SearchConfig',
+    'contact.apps.ContactConfig',
+
+    # pip_apps
+    'django_cleanup.apps.CleanupConfig',
+    'django_render_partial',
+    'django_social_share',
+
 ]
 
 MIDDLEWARE = [
@@ -63,13 +79,29 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'context_processors.context_processors.user_is_authenticate',
+                'context_processors.context_processors.last_service_number',
             ],
+            'libraries': {
+                # 'custom_tag': 'app.templatetags.my_templatetag',
+                'custom_tag': 'product.templatetags.custom_tag',
+                'is_liked': 'like.templatetags.is_liked',
+                'has_like': 'like.templatetags.has_like',
+
+                'has_dislike': 'dislike.templatetags.has_dislike',
+                'is_disliked': 'dislike.templatetags.is_disliked',
+                'has_save': 'save.templatetags.has_save',
+                'has_order': 'cart.templatetags.has_order',
+
+                'is_saved': 'save.templatetags.is_saved',
+                'paginate_in_result': 'search.templatetags.paginate_in_result',
+
+            }
         },
     },
 ]
 
 WSGI_APPLICATION = 'multishop.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -80,7 +112,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -100,11 +131,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa'
 
 TIME_ZONE = 'UTC'
 
@@ -112,13 +142,29 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "account.User"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+]
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379",
+#     }
+# }

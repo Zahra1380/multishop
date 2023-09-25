@@ -1,12 +1,12 @@
-from like.models import LikeModel
+from save.models import SaveModel
 from django import template
 
 register = template.Library()
 
 @register.filter
-def is_like(product):
+def is_save(product, user):
     try:
-        LikeModel.objects.get(product=product)
+        SaveModel.objects.get(product=product, disliker=user)
         return True
     except:
         return False

@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+
+    <!-- Cart Start -->
+    <div class="container">
+        <div class="align-content-center align-items-center">
+            <h1 class="align-content-center">{{ message }}</h1>
+            <p class="align-content-center"><strong>{{ name }}</strong></p>
+            <p class="align-content-center">{{ data }}</p>
+        </div>
+    </div>
+    <!-- Cart End -->
+{% endblock %}

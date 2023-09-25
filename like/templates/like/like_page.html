@@ -36,11 +36,11 @@
                                 {#                                <a href="{% url 'Product:like-detail' like.id %}">#}
                                 <a
                                         {% if 'dislike' in request.path %}
-                                            href="{% url 'Product:detail-dislike' item.id %}"
+                                            href="{% url 'dislike:detail-dislike' item.id %}"
                                         {% elif 'like' in request.path %}
                                             href="{% url 'like:detail-like' item.id %}"
                                             {% else %}
-                                            href="{% url 'Product:detail-save' item.id %}"
+                                            href="{% url 'save:detail-save' item.id %}"
                                         {% endif %}>
                                     {{ item.create_at }}
 

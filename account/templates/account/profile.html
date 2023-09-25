@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}SIGN UP{% endblock %}
+{% block title %}PROFILE{% endblock %}
 
 {% block content %}
 
@@ -29,7 +29,7 @@
             <div class="col-lg-12 mb-5">
                 <div class="contact-form bg-light p-30">
                     <div id="success"></div>
-                    <form name="sentMessage" id="contactForm" novalidate="novalidate" method="post">
+                    <form name="sentMessage" novalidate="novalidate" method="post">
                         {% if form.non_field_errors %}
                             {% for error in form.non_field_errors %}
                                 <p class="alert alert-danger text-danger">{{ error }}</p>

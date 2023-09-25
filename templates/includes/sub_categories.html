@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<ul class="child">
+    {% for category in category.subs_category.all %}
+        <li class="parent bg-primary"><a href="{% url 'Product:category-item' %}?pk={{ category.id }}">{{ category.title }}<span class="expand">
+            {% if category.subs_category.all %} » {% endif %}</span></a>
+            {% if category.subs_category.all %}
+                {% include 'includes/sub_categories.html' %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

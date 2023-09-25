@@ -1,12 +1,8 @@
-from like.models import LikeModel
+from dislike.models import DislikeModel
 from django import template
 
 register = template.Library()
 
 @register.filter
-def has_like(user):
-    try:
-        LikeModel.objects.get(liker=user)
-        return True
-    except:
-        return False
+def has_dislike(user):
+    return DislikeModel.objects.filter(disliker=user)

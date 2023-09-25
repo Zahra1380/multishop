@@ -25,12 +25,19 @@
                     </tr>
                     </thead>
                     <tbody class="align-middle">
-                        <tr>
-                            <td class="align-middle"><img src="{{ opinion.product.image.url }}" alt=""
-                                                          style="width: 50px;"></td>
-                            <td class="align-middle"><a href="{% url 'Product:product-detail' opinion.product.slug %}">{{ opinion.product.title }}</a></td>
-                            <td class="align-middle">{{ opinion.product.price }}$</td>
-                        </tr>
+                    <tr>
+                        <td class="align-middle w-25">
+                            {% for imgs in opinion.product.image_product.values_list.last %}
+                                {% if forloop.last %}
+                                    <img class="img-fluid w-100" src="/media/{{ imgs }}" alt="">
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td class="align-middle"><a
+                                href="{% url 'Product:product-detail' opinion.product.slug %}">{{ opinion.product.title }}</a>
+                        </td>
+                        <td class="align-middle">{{ opinion.product.price }}$</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

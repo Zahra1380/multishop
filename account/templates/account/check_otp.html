@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}SIGN UP{% endblock %}
+{% block title %}OTP{% endblock %}
 
 {% block content %}
 
@@ -12,7 +12,7 @@
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
                     <a class="breadcrumb-item text-dark" href="{% url 'home:home' %}">Home</a>
-                    <span class="breadcrumb-item active">Register </span>
+                    <span class="breadcrumb-item active">OTP </span>
                 </nav>
             </div>
         </div>
@@ -23,22 +23,27 @@
     <!-- Contact Start -->
     <div class="container-fluid">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
-                class="bg-secondary pr-3">Register</span>
+                class="bg-secondary pr-3">OTP</span>
         </h2>
         <div class="row px-xl-5">
             <div class="col-lg-12 mb-5">
                 <div class="contact-form bg-light p-30">
                     <div id="success"></div>
-                    <form name="sentMessage" id="contactForm" novalidate="novalidate" method="post">
+                    <form name="sentMessage" novalidate="novalidate" method="post">
                         {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <p class="alert alert-danger text-danger">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
                         <div class="control-group m-2">
-                            {{ form.phone }}
-                            {% for error in form.phone.errors %}
+                            {{ form.code }}
+                            {% for error in form.code.errors %}
                                 <p class="alert alert-danger text-danger">{{ error }}</p>
                             {% endfor %}
                         </div>
                         <div>
-                            <button class="btn btn-primary py-2 px-4 m-2" type="submit" id="sendMessageButton">Register
+                            <button class="btn btn-primary py-2 px-4 m-2" type="submit" id="sendMessageButton">Send
                             </button>
                         </div>
                     </form>

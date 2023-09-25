@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+
+    <!-- Cart Start -->
+    <div class="container">
+        <div class="align-content-center align-items-center">
+                    <h1 class="align-content-center">error occur</h1>
+                    <p class="align-content-center">Error code: <strong>{{ e_code }}</strong>, Error Message: <strong>{{ e_message }}</strong></p>
+        </div>
+    </div>
+    <!-- Cart End -->
+{% endblock %}

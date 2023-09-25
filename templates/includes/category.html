@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="container mb-5 mt-5">
+    <div class="mb-5 " style="display: inline-block">
+
+
+    <p class="col-12 align-items-center align-content-center bg-primary mb-0" style="color: white; text-align: center">Categories</p>
+        <ul id="menu">
+            {% for category in categories %}
+                {% if not category.parent %}
+                    <li class="parent thead-dark" style="color: rgb(61,70,77)"><a href="{% url 'Product:category-item' %}?pk={{ category.id }}">{{ category.title }}</a>
+                        {% if category.subs_category.all %}
+                            {% include 'includes/sub_categories.html' %}
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
