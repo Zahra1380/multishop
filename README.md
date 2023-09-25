@@ -1,4 +1,4 @@
-# multishop
+# multishop or Django Ecommerce Website
 This django project about multishoping
 
 app in it is:
